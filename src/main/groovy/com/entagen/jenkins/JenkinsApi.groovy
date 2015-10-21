@@ -94,6 +94,12 @@ class JenkinsApi {
             config = config.replaceAll(it.jobName, it.jobNameForBranch(missingJob.branchName))
         }
 
+        // Change the clone repository to match the branch
+        println("baseJobName:${templateJob.baseJobName}")
+        config = config.replaceAll("<parentJobName>\\p{Alnum}*${templateJob.baseJobName}(\\p{Alnum}*)<", { it -> 
+            return templateJob.templateBranchName
+        })
+
         return config
     }
 
